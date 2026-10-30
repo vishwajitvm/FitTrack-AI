@@ -1,0 +1,5 @@
+[
+{"key":"integration:serper_api_key","value":{"v":"gAAAAABq4E4HgT2aTxM44geTdYnMobs86etnPb4SIUpNIhfaDcWQQCmjuv4hreyDzutGiDpa-38OzCr4i6TzzOcbtzGDaWsFISADRiJViTw_AXHyjs55YSuMpjlB7hK35DKZsxZVuY70"},"updated_at":"2026-10-27T07:08:56.003234+00:00"},
+{"key":"integration:tavily_api_key","value":{"v":"gAAAAABq4E2XP8uq8K8Ku75Mq9Zy6ujV1UE18nPR0bVj05zoO-zFHl19CrMCQUOhiRvdLH_rVkS0JQ78F0ApE-vDVwcMN659SKQEYAQpazCOGOiEKU5tZy7OwzUz3nX-JZRyelzNugS6W0_Wi5PiHcA-IBbsdPmPnw=="},"updated_at":"2026-10-27T07:07:03.241335+00:00"},
+{"key":"integration:usda_api_key","value":{"v":"gAAAAABq4E0g3VntIWUySK2MepfN4B9O_3UrMzOBX6FmLNb7_B_C9KO50EiPVW_X38HqyCF6mrO1furmbM_Vbm-aQYI-72-77xLG_GqM-atrEU2kB41ssyr0WNMVky5_OwQc7DY3B1af"},"updated_at":"2026-10-27T07:05:04.581007+00:00"}
+]

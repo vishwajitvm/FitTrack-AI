@@ -1,0 +1,40 @@
+%% How a meal photo becomes a food-log entry
+sequenceDiagram
+    autonumber
+    actor U as You (phone)
+    participant FE as Snap meal page
+    participant API as POST /api/food/analyze
+    participant GEO as portions.py<br/>(container geometry)
+    participant R as LLM router
+    participant V as Vision model<br/>(Gemini / Groq / … / Ollama)
+    participant DB as Nutrition lookup<br/>(library → USDA → OFF → web)
+    participant PG as PostgreSQL
+
+    U->>FE: Take photo (+ optional ingredients,<br/>container, fill level, known weight)
+    FE->>FE: Compress to ≤1600 px JPEG
+    FE->>API: multipart form
+    API->>API: Auto-rotate, resize, save to /uploads/food
+    API->>GEO: container volume × fill × density
+    GEO-->>API: expected weight (e.g. 750 ml × 50% × 0.70 g/ml ≈ 262 g)
+    API->>R: vision task + strict JSON prompt
+    loop until one model succeeds
+        R->>V: image + context
+        alt 429 rate limit
+            V-->>R: cooldown this model, try next
+        else 401/403
+            V-->>R: skip the whole provider
+        else OK
+            V-->>R: items, grams, ranges, hidden fats
+        end
+    end
+    R-->>API: parsed JSON
+    API->>API: Reconcile weights (known weight ▸ geometry ▸ vision)
+    loop each item
+        API->>DB: per-100 g values
+        DB-->>API: verified values + source
+        API->>API: blend DB + AI macros, low/high kcal range, confidence
+    end
+    API->>PG: food_analyses row (status, items, sources)
+    API-->>FE: FoodAnalysis
+    U->>FE: Review / edit items
+    FE->>PG: POST /analyses/{id}/save → food_logs (+ tags, recompute day)

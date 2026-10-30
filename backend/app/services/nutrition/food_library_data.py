@@ -1,0 +1,106 @@
+"""Built-in reference foods, values per 100 g (cooked/as eaten unless stated).
+
+Values are rounded composites of USDA FoodData Central (SR Legacy / FNDDS) and IFCT 2017
+typical values for home-style Indian preparations. They are a fast, offline first pass;
+the analyzer cross-checks with USDA / Open Food Facts when online.
+
+Columns: name, aliases, category, kcal, protein, carbs, fat, fibre, density g/ml, serving hint, tags
+"""
+
+FOODS: list[tuple] = [
+    # ---------- rice & grains ----------
+    ("White rice, cooked", ["steamed rice", "plain rice", "chawal"], "cooked_rice", 130, 2.7, 28.2, 0.3, 0.4, 0.70, "1 cup ≈ 160 g", []),
+    ("Brown rice, cooked", ["brown rice"], "cooked_rice", 123, 2.7, 25.6, 1.0, 1.6, 0.70, "1 cup ≈ 160 g", []),
+    ("Vegetable fried rice (home, tadka oil)", ["fried rice", "tadka rice", "masala rice", "fried rice with peanuts"], "cooked_rice", 165, 3.7, 25.2, 5.4, 1.3, 0.70, "1 plate ≈ 250 g", ["fried"]),
+    ("Jeera rice", ["cumin rice"], "cooked_rice", 150, 3.0, 26.0, 3.8, 0.8, 0.70, "1 plate ≈ 200 g", []),
+    ("Veg pulao", ["pulao", "pulav"], "cooked_rice", 150, 3.2, 24.0, 4.5, 1.5, 0.70, "1 plate ≈ 220 g", []),
+    ("Chicken biryani", ["biryani"], "cooked_rice", 185, 9.0, 22.0, 6.5, 0.8, 0.70, "1 plate ≈ 300 g", []),
+    ("Khichdi", ["khichri", "dal khichdi"], "porridge", 120, 4.5, 20.0, 2.5, 2.0, 0.95, "1 bowl ≈ 250 g", ["legumes"]),
+    ("Poha", ["flattened rice", "kanda poha"], "dry_dish", 160, 3.0, 28.0, 4.5, 1.5, 0.55, "1 plate ≈ 180 g", []),
+    ("Upma", ["rava upma", "suji upma"], "dry_dish", 155, 3.5, 22.0, 5.8, 1.6, 0.75, "1 plate ≈ 200 g", ["gluten", "refined_flour"]),
+    ("Oats, raw", ["rolled oats", "oatmeal dry"], "dry_ingredient", 389, 16.9, 66.3, 6.9, 10.6, 0.40, "40 g serving", []),
+    ("Oats porridge with milk", ["oats porridge", "oatmeal"], "porridge", 95, 4.0, 14.0, 2.5, 1.5, 1.0, "1 bowl ≈ 250 g", ["lactose"]),
+    # ---------- breads & flour ----------
+    ("Roti / chapati (whole wheat, no ghee)", ["roti", "chapati", "phulka"], "bread", 265, 8.5, 50.0, 3.0, 5.0, None, "1 roti ≈ 35-40 g", ["gluten"]),
+    ("Paratha, plain", ["paratha", "parantha"], "bread", 326, 6.4, 45.0, 13.4, 4.0, None, "1 paratha ≈ 80 g", ["gluten", "fried"]),
+    ("Naan", ["butter naan"], "bread", 290, 9.0, 50.0, 5.5, 2.2, None, "1 naan ≈ 90 g", ["gluten", "refined_flour"]),
+    ("White bread", ["bread slice", "sandwich bread"], "bread", 265, 9.0, 49.0, 3.2, 2.7, None, "1 slice ≈ 28 g", ["gluten", "refined_flour"]),
+    ("Whole wheat bread", ["brown bread", "atta bread"], "bread", 252, 12.4, 43.0, 3.5, 6.0, None, "1 slice ≈ 32 g", ["gluten"]),
+    ("Vegetable sandwich (bread, butter, veg)", ["sandwich", "veg sandwich", "bread sandwich"], "bread", 210, 5.5, 27.0, 9.0, 2.5, None, "1 sandwich ≈ 100 g", ["gluten", "refined_flour"]),
+    ("Idli", ["idly"], "bread", 115, 3.8, 24.0, 0.5, 1.4, None, "1 idli ≈ 40 g", []),
+    ("Dosa, plain", ["dosa", "plain dosa"], "bread", 168, 3.9, 28.0, 4.3, 1.0, None, "1 dosa ≈ 90 g", []),
+    ("Puri", ["poori"], "bread", 340, 7.0, 44.0, 15.0, 3.0, None, "1 puri ≈ 25 g", ["gluten", "fried"]),
+    # ---------- pasta & noodles ----------
+    ("Pasta, cooked plain", ["pasta", "penne", "spaghetti"], "pasta", 158, 5.8, 31.0, 0.9, 1.8, 0.60, "1 cup ≈ 140 g", ["gluten", "refined_flour"]),
+    ("Macaroni, Indian style (veg + masala + oil)", ["macaroni", "macaroni pasta", "masala pasta"], "pasta", 165, 4.5, 27.0, 4.6, 1.8, 0.60, "1 tiffin ≈ 300 g", ["gluten", "refined_flour"]),
+    ("Instant noodles, cooked", ["maggi", "instant noodles"], "pasta", 138, 3.2, 19.5, 5.3, 0.9, 0.60, "1 pack cooked ≈ 250 g", ["gluten", "refined_flour", "high_sodium"]),
+    # ---------- dals, curries, sabzi ----------
+    ("Dal tadka (toor/moong, home)", ["dal", "daal", "toor dal", "moong dal", "dal fry"], "curry", 105, 5.6, 13.5, 3.2, 3.0, 1.0, "1 katori ≈ 150 g", ["legumes"]),
+    ("Rajma curry", ["rajma", "kidney beans curry"], "curry", 140, 6.0, 17.0, 5.0, 5.5, 1.0, "1 katori ≈ 150 g", ["legumes"]),
+    ("Chole / chana masala", ["chole", "chana masala", "chickpea curry"], "curry", 155, 6.5, 19.0, 6.0, 5.5, 1.0, "1 katori ≈ 150 g", ["legumes"]),
+    ("Sambar", ["sambhar"], "curry", 65, 3.0, 8.5, 2.2, 2.5, 1.0, "1 katori ≈ 150 g", ["legumes"]),
+    ("Paneer, raw", ["paneer", "cottage cheese indian"], "protein", 265, 18.3, 1.2, 20.8, 0.0, None, "100 g block", ["lactose"]),
+    ("Paneer butter masala", ["paneer makhani", "butter paneer"], "curry", 230, 8.0, 8.0, 19.0, 1.5, 1.0, "1 katori ≈ 150 g", ["lactose"]),
+    ("Palak paneer", ["spinach paneer"], "curry", 145, 7.0, 6.0, 10.5, 2.0, 1.0, "1 katori ≈ 150 g", ["lactose"]),
+    ("Mixed veg sabzi (dry, oil)", ["sabzi", "mix veg", "vegetable curry dry"], "sabzi", 95, 2.5, 9.0, 5.5, 3.0, 0.60, "1 katori ≈ 120 g", []),
+    ("Aloo sabzi", ["potato sabzi", "aloo"], "sabzi", 120, 2.0, 15.0, 6.0, 2.0, 0.65, "1 katori ≈ 120 g", []),
+    ("Chicken curry", ["chicken gravy", "chicken masala"], "curry", 150, 14.0, 4.0, 8.5, 0.8, 1.0, "1 katori ≈ 150 g", []),
+    ("Fish curry", ["fish gravy", "machli curry"], "curry", 130, 14.0, 3.5, 6.5, 0.5, 1.0, "1 katori ≈ 150 g", []),
+    # ---------- protein foods ----------
+    ("Egg, whole, boiled", ["boiled egg", "egg"], "protein", 155, 12.6, 1.1, 10.6, 0.0, None, "1 large egg ≈ 50 g", []),
+    ("Egg white, boiled", ["egg whites", "boiled egg white"], "protein", 52, 10.9, 0.7, 0.2, 0.0, None, "1 white ≈ 33 g", []),
+    ("Omelette (1 tsp oil)", ["omelet", "masala omelette"], "protein", 175, 11.0, 1.5, 13.5, 0.2, None, "2-egg omelette ≈ 120 g", []),
+    ("Chicken breast, cooked", ["grilled chicken", "boiled chicken"], "protein", 165, 31.0, 0.0, 3.6, 0.0, None, "1 breast ≈ 150 g", []),
+    ("Tandoori chicken (skinless)", ["tandoori chicken", "chicken tikka"], "protein", 150, 25.0, 3.0, 5.0, 0.5, None, "1 leg ≈ 120 g", []),
+    ("Soya chunks, dry", ["soya chunks", "nutrela"], "dry_ingredient", 345, 52.0, 33.0, 0.5, 13.0, None, "30 g dry", []),
+    ("Tofu, firm", ["tofu"], "protein", 144, 17.3, 2.8, 8.7, 2.3, None, "100 g", []),
+    ("Whey protein concentrate (powder)", ["whey", "whey protein", "protein shake", "whey scoop"], "supplement", 379, 74.2, 7.6, 4.5, 0.0, None, "1 scoop ≈ 33 g ≈ 125 kcal", ["lactose"]),
+    ("Whey protein isolate (powder)", ["whey isolate", "iso whey"], "supplement", 370, 88.0, 3.0, 1.0, 0.0, None, "1 scoop ≈ 30 g", []),
+    # ---------- dairy & drinks ----------
+    ("Milk, toned (3% fat)", ["milk", "toned milk"], "beverage", 58, 3.2, 4.7, 3.0, 0.0, 1.03, "1 glass ≈ 250 ml", ["lactose"]),
+    ("Milk, whole", ["full cream milk", "whole milk"], "beverage", 62, 3.2, 4.8, 3.3, 0.0, 1.03, "1 glass ≈ 250 ml", ["lactose"]),
+    ("Milk chai, low sugar", ["chai", "milk tea", "masala chai"], "beverage", 50, 1.9, 5.0, 2.5, 0.0, 1.02, "1 cup ≈ 150 ml", ["lactose", "caffeine"]),
+    ("Black coffee", ["coffee", "americano"], "beverage", 2, 0.3, 0.0, 0.0, 0.0, 1.0, "1 cup ≈ 240 ml", ["caffeine"]),
+    ("Curd / dahi (whole milk)", ["curd", "dahi", "yogurt"], "dairy", 61, 3.5, 4.7, 3.3, 0.0, 1.03, "1 katori ≈ 150 g", ["lactose"]),
+    ("Greek yogurt, plain non-fat", ["greek yogurt", "hung curd"], "dairy", 59, 10.2, 3.6, 0.4, 0.0, 1.05, "1 cup ≈ 170 g", ["lactose"]),
+    ("Buttermilk (chaas)", ["chaas", "buttermilk"], "beverage", 30, 1.5, 3.5, 1.0, 0.0, 1.02, "1 glass ≈ 250 ml", ["lactose"]),
+    ("Sweet lassi", ["lassi"], "beverage", 85, 3.0, 13.0, 2.5, 0.0, 1.04, "1 glass ≈ 250 ml", ["lactose"]),
+    ("Orange juice", ["juice", "orange juice"], "beverage", 45, 0.7, 10.4, 0.2, 0.2, 1.04, "1 glass ≈ 250 ml", []),
+    ("Cola (regular)", ["coke", "soft drink", "soda"], "beverage", 42, 0.0, 10.6, 0.0, 0.0, 1.04, "1 can = 330 ml", ["caffeine"]),
+    # ---------- fruit & veg ----------
+    ("Banana", ["kela"], "fruit", 89, 1.1, 22.8, 0.3, 2.6, None, "1 medium ≈ 118 g", []),
+    ("Apple", ["seb"], "fruit", 52, 0.3, 13.8, 0.2, 2.4, None, "1 medium ≈ 180 g", []),
+    ("Orange", ["santra"], "fruit", 47, 0.9, 11.8, 0.1, 2.4, None, "1 medium ≈ 130 g", []),
+    ("Papaya", ["papita"], "fruit", 43, 0.5, 10.8, 0.3, 1.7, None, "1 cup ≈ 145 g", []),
+    ("Mango", ["aam"], "fruit", 60, 0.8, 15.0, 0.4, 1.6, None, "1 cup ≈ 165 g", []),
+    ("Guava", ["amrood"], "fruit", 68, 2.6, 14.3, 1.0, 5.4, None, "1 medium ≈ 100 g", []),
+    ("Grapes", ["angoor"], "fruit", 69, 0.7, 18.0, 0.2, 0.9, None, "1 cup ≈ 150 g", []),
+    ("Watermelon", ["tarbooz"], "fruit", 30, 0.6, 7.6, 0.2, 0.4, None, "1 cup ≈ 150 g", []),
+    ("Dates", ["khajur", "medjool"], "fruit", 277, 1.8, 75.0, 0.2, 6.7, None, "1 date ≈ 24 g", []),
+    ("Green salad (cucumber, tomato, onion)", ["salad", "kachumber"], "salad", 20, 0.9, 4.2, 0.2, 1.3, 0.30, "1 bowl ≈ 150 g", []),
+    ("Moong sprouts", ["sprouts", "sprout salad"], "salad", 30, 3.0, 6.0, 0.2, 1.8, 0.45, "1 bowl ≈ 100 g", ["legumes"]),
+    ("Potato, boiled", ["boiled potato"], "vegetable", 87, 1.9, 20.0, 0.1, 1.8, None, "1 medium ≈ 150 g", []),
+    ("Sweet potato, boiled", ["shakarkandi"], "vegetable", 86, 1.6, 20.0, 0.1, 3.0, None, "1 medium ≈ 130 g", []),
+    ("Sweet corn, boiled", ["corn", "bhutta"], "vegetable", 96, 3.4, 21.0, 1.5, 2.4, None, "1 cup ≈ 150 g", []),
+    # ---------- nuts, fats, sugar ----------
+    ("Peanuts, roasted", ["peanut", "moongphali", "groundnut"], "nuts", 585, 23.7, 21.5, 49.7, 8.0, None, "1 tbsp ≈ 9 g", []),
+    ("Almonds", ["badam"], "nuts", 579, 21.2, 21.6, 49.9, 12.5, None, "10 almonds ≈ 12 g", []),
+    ("Peanut butter", ["pb"], "nuts", 588, 25.0, 20.0, 50.0, 6.0, None, "1 tbsp ≈ 16 g", []),
+    ("Cooking oil (any vegetable oil)", ["oil", "refined oil", "mustard oil", "tadka oil"], "fat", 884, 0.0, 0.0, 100.0, 0.0, 0.92, "1 tsp ≈ 4.5 g", ["fried"]),
+    ("Ghee", ["clarified butter"], "fat", 900, 0.0, 0.0, 99.8, 0.0, 0.91, "1 tsp ≈ 5 g", ["lactose"]),
+    ("Butter", ["makhan"], "fat", 717, 0.9, 0.1, 81.0, 0.0, 0.91, "1 tsp ≈ 5 g", ["lactose"]),
+    ("Sugar", ["cheeni", "shakkar"], "sugar", 387, 0.0, 100.0, 0.0, 0.0, 0.85, "1 tsp ≈ 4 g", []),
+    ("Coconut chutney", ["chutney"], "condiment", 190, 2.5, 7.0, 17.0, 4.0, 1.0, "2 tbsp ≈ 30 g", []),
+    # ---------- snacks & fast food ----------
+    ("Samosa", ["samosa"], "snack", 300, 5.0, 32.0, 17.0, 2.5, None, "1 samosa ≈ 90 g", ["gluten", "refined_flour", "fried"]),
+    ("Pakora / bhajji", ["pakoda", "bhaji", "pakora"], "snack", 300, 7.0, 28.0, 18.0, 3.0, None, "4 pieces ≈ 80 g", ["fried"]),
+    ("Vada pav", ["vada pao"], "snack", 290, 6.5, 37.0, 13.0, 2.5, None, "1 piece ≈ 140 g", ["gluten", "refined_flour", "fried"]),
+    ("Pav bhaji (bhaji only)", ["pav bhaji", "bhaji"], "curry", 110, 2.5, 13.0, 5.5, 3.0, 1.0, "1 plate bhaji ≈ 200 g", []),
+    ("Pizza, cheese", ["pizza"], "fast_food", 266, 11.4, 33.0, 9.7, 2.3, None, "1 slice ≈ 107 g", ["gluten", "refined_flour", "lactose"]),
+    ("Veg burger", ["burger"], "fast_food", 240, 7.0, 31.0, 10.0, 3.0, None, "1 burger ≈ 150 g", ["gluten", "refined_flour"]),
+    ("French fries", ["fries", "chips (fries)"], "fast_food", 312, 3.4, 41.0, 15.0, 3.8, None, "medium ≈ 117 g", ["fried", "high_sodium"]),
+    ("Marie / tea biscuits", ["biscuit", "biscuits", "cookies"], "snack", 440, 7.0, 74.0, 13.0, 2.0, None, "1 biscuit ≈ 7 g", ["gluten", "refined_flour"]),
+    ("Gulab jamun", ["gulab jamun"], "dessert", 375, 5.0, 55.0, 15.0, 0.5, None, "1 piece ≈ 40 g", ["fried", "lactose"]),
+    ("Moong dal chilla", ["chilla", "cheela", "moong chilla"], "bread", 155, 9.0, 18.0, 5.0, 4.0, None, "1 chilla ≈ 80 g", ["legumes"]),
+    ("Besan chilla", ["besan cheela", "gram flour chilla"], "bread", 175, 8.5, 18.0, 7.5, 4.5, None, "1 chilla ≈ 80 g", ["legumes"]),
+]

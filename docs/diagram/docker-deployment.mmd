@@ -1,0 +1,25 @@
+%% docker compose up -d --build
+flowchart TB
+    browser([Browser]) -->|":3000"| frontend
+    browser -->|":8000  (API + /uploads)"| backend
+
+    subgraph net["Compose network: fittrack-ai"]
+        frontend["frontend<br/>node:20-alpine · Next.js standalone"]
+        backend["backend<br/>python:3.12-slim · uvicorn --reload<br/>runs Alembic migrations + seed on start"]
+        db[("db<br/>pgvector/pgvector:pg16")]
+        redis[("redis<br/>redis:7-alpine")]
+        ollama["ollama<br/>ollama/ollama (profile: ollama)"]
+    end
+
+    backend -->|"db:5432"| db
+    backend -->|"redis:6379"| redis
+    backend -->|"ollama:11434"| ollama
+    backend -.->|"host.docker.internal:11434<br/>(Ollama on your PC)"| hostollama[Host Ollama]
+
+    db --- v1[(postgres_data)]
+    redis --- v2[(redis_data)]
+    backend --- v3[(backend_data<br/>uploads + exports)]
+    ollama --- v4[(ollama_models)]
+    env[/backend/.env/] -.-> backend
+    env -.-> db
+    fenv[/frontend/.env/] -.-> frontend

@@ -1,0 +1,26 @@
+%% Multi-provider routing with Ollama as the last resort
+flowchart TD
+    start([AI task requested<br/>vision · reasoning · fast · medical]) --> needs{Image attached?}
+    needs -- yes --> capV[Require capability: vision]
+    needs -- no --> capC[Require capability: chat<br/>prefer task capability]
+    capV --> chain
+    capC --> chain
+
+    subgraph chain["Build the fallback chain"]
+        p1["1 · Pinned models for this task<br/>(AI Providers ▸ Routing)"]
+        p2["2 · Cloud providers by priority<br/>enabled + API key present<br/>best 2 models each, breadth-first"]
+        p3["3 · Remaining matching models"]
+        p4["4 · Ollama installed models<br/>(only if 'Ollama last resort' is ON)"]
+        p1 --> p2 --> p3 --> cap["Cap at max_attempts"] --> p4
+    end
+
+    chain --> next{Next candidate}
+    next -- none left --> fail([AllProvidersFailed<br/>→ rule-based fallback / clear error])
+    next --> cd{Model on 429 cooldown?}
+    cd -- yes --> next
+    cd -- no --> call[Call provider]
+    call --> res{Result}
+    res -- 200 + valid JSON --> ok([✅ Return text/JSON<br/>log success])
+    res -- 429 --> cool[Set cooldown<br/>Retry-After or 60 s] --> logf[Log to llm_call_logs] --> next
+    res -- 401/403 --> dead[Skip provider for this request] --> logf
+    res -- timeout / 5xx / bad JSON --> logf

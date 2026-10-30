@@ -1,0 +1,32 @@
+%% How one day's numbers are computed (services/tracker/daily.py)
+flowchart LR
+    subgraph IN["Raw logs for the date"]
+        food[food_logs]
+        sess["workout_sessions<br/>(lifting block)"]
+        cardio["workout_logs<br/>(cardio rows)"]
+        str["workout_logs<br/>(strength rows → 0 kcal)"]
+        check["daily_summaries<br/>check-in: weight, steps, sleep…"]
+        prof["users<br/>age · sex · height · activity"]
+    end
+
+    food --> intake["Intake<br/>Σ kcal, P, C, F, fibre"]
+    intake --> tef["TEF<br/>25%·P + 7.5%·C + 2%·F energy"]
+    prof --> bmr["BMR (Mifflin-St Jeor)<br/>10W + 6.25H − 5A ± s"]
+    check --> bmr
+    check --> neat["NEAT<br/>steps × 0.0005 × kg<br/>or % of BMR"]
+    sess --> ex["Exercise<br/>MET × 3.5 × kg ÷ 200 × min<br/>once per lifting block"]
+    cardio --> ex
+    str -. "never double-counted" .-> ex
+
+    bmr --> tdee["TDEE = BMR + NEAT + TEF + Exercise"]
+    neat --> tdee
+    tef --> tdee
+    ex --> tdee
+    tdee --> deficit{"Age & sex known?"}
+    deficit -- yes --> d1["Deficit = TDEE − Intake"]
+    deficit -- no --> d2["Pending Biometric Confirmation"]
+
+    intake --> rules["Coach rules<br/>crash · protein · fibre · late meals · sleep"]
+    d1 --> rules
+    rules --> alerts["Alerts<br/>🟥 critical · 🟨 warning · 🟩 ok"]
+    d1 --> cache[("daily_summaries<br/>cached totals")]

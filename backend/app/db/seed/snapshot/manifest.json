@@ -1,0 +1,31 @@
+{
+  "created_at": "2026-10-30T09:35:37.833046+00:00",
+  "app_version": "1.0.0",
+  "schema_revision": "0006_daily_briefs",
+  "database": "postgresql",
+  "secret_key_fingerprint": "14bbc324a3f4",
+  "tables": {
+    "ai_providers": 10,
+    "app_settings": 3,
+    "assistant_messages": 4,
+    "daily_briefs": 0,
+    "food_analyses": 0,
+    "food_library": 86,
+    "llm_call_logs": 53,
+    "portion_calibrations": 0,
+    "presets": 9,
+    "users": 1,
+    "ai_models": 62,
+    "bio_feedback": 1,
+    "daily_summaries": 5,
+    "meal_memories": 0,
+    "medical_reports": 0,
+    "biomarkers": 0,
+    "food_logs": 25,
+    "workout_sessions": 5,
+    "workout_logs": 37
+  },
+  "total_rows": 301,
+  "uploaded_files": 6,
+  "note": "Restore with: python -m app.db.seed.snapshot load --replace"
+}

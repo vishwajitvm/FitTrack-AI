@@ -1,0 +1,12 @@
+[
+{"id":"cloudflare","enabled":true,"priority":20,"base_url_override":null,"api_key_encrypted":null,"extra":{},"last_status":null,"last_error":null,"last_checked_at":null},
+{"id":"custom","enabled":false,"priority":910,"base_url_override":null,"api_key_encrypted":null,"extra":{},"last_status":null,"last_error":null,"last_checked_at":null},
+{"id":"gemini","enabled":true,"priority":5,"base_url_override":null,"api_key_encrypted":"gAAAAABq4HMof0-3L8PAU8d_7SPH-r0nURoE2SDnrd1KVXlwn1F3TujHR6gC_OjIH6h7g7SxAH3sbBRRS1UerAtlOQQppfCmHWIcX_H-SFk2zYuBpwQMeTJ8Yh-_-Vpo8fXqh1U6-3CYb3lj-xRMiU0fP_lvC8kqQw==","extra":{},"last_status":"ok","last_error":null,"last_checked_at":"2026-10-29T05:55:06.407509+00:00"},
+{"id":"groq","enabled":true,"priority":10,"base_url_override":null,"api_key_encrypted":null,"extra":{},"last_status":null,"last_error":null,"last_checked_at":null},
+{"id":"lmstudio","enabled":false,"priority":900,"base_url_override":null,"api_key_encrypted":null,"extra":{},"last_status":null,"last_error":null,"last_checked_at":null},
+{"id":"mistral","enabled":false,"priority":30,"base_url_override":null,"api_key_encrypted":null,"extra":{},"last_status":null,"last_error":null,"last_checked_at":null},
+{"id":"nvidia","enabled":true,"priority":25,"base_url_override":null,"api_key_encrypted":null,"extra":{},"last_status":null,"last_error":null,"last_checked_at":null},
+{"id":"ollama","enabled":true,"priority":1000,"base_url_override":null,"api_key_encrypted":null,"extra":{},"last_status":null,"last_error":null,"last_checked_at":null},
+{"id":"openrouter","enabled":true,"priority":15,"base_url_override":null,"api_key_encrypted":null,"extra":{},"last_status":null,"last_error":null,"last_checked_at":null},
+{"id":"zai","enabled":true,"priority":35,"base_url_override":null,"api_key_encrypted":null,"extra":{},"last_status":null,"last_error":null,"last_checked_at":null}
+]

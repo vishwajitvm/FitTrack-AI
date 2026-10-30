@@ -1,0 +1,42 @@
+%% Where on-device ML replaces or assists the LLM (see docs/ML.md)
+flowchart TB
+    subgraph PHOTO["📸 Meal photo"]
+        p0[Upload] --> q[Quality check<br/>Laplacian blur · brightness]
+        q --> h{pHash matches a<br/>recent photo?}
+        h -- yes --> dup([Reuse previous result<br/>no AI call])
+        h -- no --> emb[Image embedding<br/>Nomic Embed Vision · ONNX]
+        emb --> knn{k-NN: ≥ 93% similar<br/>to a meal YOU saved?}
+        knn -- yes --> mine([Your usual meal<br/>reuse saved portions · no AI])
+        knn -- no --> zs[Zero-shot dish guesses<br/>image ↔ food-name vectors]
+        zs --> geo[Container geometry ×<br/>personal calibration factor]
+        geo --> ai{AI allowed &<br/>a provider answers?}
+        ai -- yes --> llm[LLM vision decomposes items<br/>with ML hints in the prompt]
+        ai -- no --> mlonly([ML-only estimate<br/>parser · k-NN · zero-shot])
+        llm --> ground[Ground in food DBs<br/>blend macros · ranges]
+        ground --> save[You review & save]
+        mlonly --> save
+        save --> learn[(Learn: meal memory +<br/>portion calibration)]
+    end
+
+    subgraph TEXT["⌨️ Typed meal"]
+        t0["2 roti, 1 katori dal…"] --> parse[Quantity/unit rules +<br/>hybrid semantic search]
+        parse --> scoop[Protein scoops use<br/>your profile's powder]
+        parse -- low confidence --> askai([Suggest AI / Snap meal])
+    end
+
+    subgraph NUMBERS["📈 Daily numbers"]
+        logs[(Food logs ·<br/>weigh-ins)] --> kf[Kalman filter<br/>trend weight + adaptive TDEE]
+        kf --> tdee[TDEE: formula ⨉ adaptive<br/>blended by confidence]
+        kf --> fc[Rate · goal date · plateau]
+        wl[(Workouts)] --> acwr[Session-RPE load ·<br/>EWMA ACWR · monotony]
+        chk[(Check-ins)] --> ridge[Ridge regression:<br/>what drives your energy]
+        acwr --> ready[Readiness & volume]
+        ridge --> ready
+        sym[(Symptoms)] --> bayes[Bayesian N-of-1<br/>trigger analysis]
+        gap[Remaining protein / kcal] --> milp[MILP meal optimizer<br/>diet · intolerances · bedtime]
+    end
+
+    subgraph LAB["🩸 Lab report"]
+        pdf[PDF text] --> rx[Regex biomarker parser +<br/>reference ranges + rules]
+        rx -- "< 3 markers or image" --> labai([LLM reads the report])
+    end

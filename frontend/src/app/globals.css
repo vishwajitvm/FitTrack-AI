@@ -1,0 +1,424 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   Colour tokens ("R G B" triplets). Light is the default; `.dark` on
+   <html> (set before paint by the script in layout.tsx) swaps them.
+------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+  /* Page base + text scale (cool, slightly violet greys). */
+  --bg: 244 242 252;
+  --slate-50: 246 244 253;
+  --slate-100: 238 235 249;
+  --slate-200: 225 221 240;
+  --slate-300: 202 197 224;
+  --slate-400: 150 145 175;
+  --slate-500: 104 99 128;
+  --slate-600: 78 73 102;
+  --slate-700: 56 52 80;
+  --slate-800: 34 31 55;
+  --slate-900: 19 16 38;
+  --slate-950: 9 6 22;
+  --tint-a: 0.55; /* bg-slate-50/100 tiles are see-through on glass */
+
+  /* Glass surfaces: bg-card is translucent; .glass adds the blur. */
+  --card: 255 255 255;
+  --card-a: 0.62;
+  --glass-edge: 255 255 255;
+  --glass-edge-a: 0.75;
+  --line: 30 27 75;
+  --line-a: 0.09;
+  --shadow: 46 16 101;
+
+  /* Solid brand (primary buttons, selected states): violet. */
+  --navy: 124 58 237;
+  --navy-800: 109 40 217;
+  --navy-700: 91 33 182;
+
+  --sidebar: 255 255 255;
+  --sidebar-fg: 56 52 80;
+  --sidebar-muted: 104 99 128;
+  --sidebar-dim: 150 145 175;
+  --sidebar-hover: 238 235 249;
+  --sidebar-active: 237 233 254;
+  --sidebar-active-fg: 109 40 217;
+
+  --crit-bg: 255 228 232;
+  --crit-fg: 190 18 60;
+  --crit-border: 254 205 211;
+  --warn-bg: 254 243 199;
+  --warn-fg: 180 83 9;
+  --warn-border: 253 230 138;
+  --good-bg: 220 252 231;
+  --good-fg: 21 128 61;
+  --good-border: 187 247 208;
+  --info-bg: 224 242 254;
+  --info-fg: 3 105 161;
+  --info-border: 186 230 253;
+
+  --brand-50: 243 240 255;
+  --brand-100: 233 225 255;
+  --brand-500: 139 92 246;
+  --brand-600: 109 40 217;
+  --brand-700: 91 33 182;
+
+  /* One accent per metric (data only). */
+  --acc-kcal: 249 115 22; /* food eaten: orange */
+  --acc-protein: 217 70 239; /* protein: fuchsia */
+  --acc-burn: 244 63 94; /* burn / exercise: rose */
+  --acc-balance: 16 185 129; /* deficit: emerald */
+  --acc-weight: 14 165 233; /* weight: sky */
+  --acc-sleep: 99 102 241; /* sleep & recovery: indigo */
+  --acc-water: 6 182 212; /* water / steps: cyan */
+
+  /* Hero gradient: violet → fuchsia → rose. */
+  --hero-from: 124 58 237;
+  --hero-via: 192 38 211;
+  --hero-to: 244 63 94;
+
+  /* Aurora behind the app. */
+  --aurora-1: 167 139 250;
+  --aurora-2: 103 232 249;
+  --aurora-3: 244 114 182;
+  --aurora-4: 253 186 116;
+  --aurora-a: 0.55;
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: 7 7 20;
+  --slate-50: 22 20 44;
+  --slate-100: 34 31 60;
+  --slate-200: 48 45 78;
+  --slate-300: 70 66 102;
+  --slate-400: 122 118 155;
+  --slate-500: 158 154 188;
+  --slate-600: 186 183 212;
+  --slate-700: 213 211 232;
+  --slate-800: 233 232 245;
+  --slate-900: 246 245 252;
+  --slate-950: 252 252 255;
+  --tint-a: 0.6;
+
+  --card: 24 21 48;
+  --card-a: 0.58;
+  --glass-edge: 255 255 255;
+  --glass-edge-a: 0.09;
+  --line: 255 255 255;
+  --line-a: 0.09;
+  --shadow: 0 0 0;
+
+  --navy: 124 58 237;
+  --navy-800: 139 92 246;
+  --navy-700: 167 139 250;
+
+  --sidebar: 20 18 42;
+  --sidebar-fg: 213 211 232;
+  --sidebar-muted: 158 154 188;
+  --sidebar-dim: 122 118 155;
+  --sidebar-hover: 40 36 72;
+  --sidebar-active: 58 36 120;
+  --sidebar-active-fg: 221 214 254;
+
+  --crit-bg: 72 14 34;
+  --crit-fg: 253 164 175;
+  --crit-border: 120 28 56;
+  --warn-bg: 64 40 8;
+  --warn-fg: 252 211 77;
+  --warn-border: 118 80 14;
+  --good-bg: 10 52 36;
+  --good-fg: 134 239 172;
+  --good-border: 20 100 62;
+  --info-bg: 10 40 72;
+  --info-fg: 125 211 252;
+  --info-border: 22 72 122;
+
+  --brand-50: 44 28 90;
+  --brand-100: 62 38 124;
+  --brand-500: 167 139 250;
+  --brand-600: 196 181 253;
+  --brand-700: 221 214 254;
+
+  --acc-kcal: 251 146 60;
+  --acc-protein: 232 121 249;
+  --acc-burn: 251 113 133;
+  --acc-balance: 52 211 153;
+  --acc-weight: 56 189 248;
+  --acc-sleep: 129 140 248;
+  --acc-water: 34 211 238;
+
+  --hero-from: 109 40 217;
+  --hero-via: 162 28 175;
+  --hero-to: 225 29 72;
+
+  --aurora-1: 109 40 217;
+  --aurora-2: 8 145 178;
+  --aurora-3: 192 38 211;
+  --aurora-4: 79 70 229;
+  --aurora-a: 0.42;
+}
+
+html,
+body {
+  @apply text-slate-900 antialiased;
+  background-color: rgb(var(--bg));
+}
+
+* {
+  @apply border-line;
+}
+
+@layer components {
+  /* ---------------------------------------------------------------- aurora backdrop (fixed, still) */
+  .aurora {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(40% 45% at 12% 8%, rgb(var(--aurora-1) / var(--aurora-a)), transparent 70%),
+      radial-gradient(35% 40% at 88% 12%, rgb(var(--aurora-2) / var(--aurora-a)), transparent 70%),
+      radial-gradient(45% 45% at 78% 88%, rgb(var(--aurora-3) / var(--aurora-a)), transparent 70%),
+      radial-gradient(40% 40% at 18% 92%, rgb(var(--aurora-4) / var(--aurora-a)), transparent 70%),
+      rgb(var(--bg));
+  }
+  .aurora::after {
+    /* faint dot grid for depth */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgb(var(--line) / 0.07) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(to bottom, black, transparent 85%);
+  }
+
+  /* ---------------------------------------------------------------- glass */
+  .glass {
+    background-color: rgb(var(--card) / var(--card-a));
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+    border-color: rgb(var(--glass-edge) / var(--glass-edge-a));
+    box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.35), 0 10px 34px -14px rgb(var(--shadow) / 0.28);
+  }
+  .dark .glass {
+    box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.07), 0 14px 40px -14px rgb(0 0 0 / 0.7);
+  }
+  /* Overlays (modals, menus, popovers) need more body to stay readable. */
+  .glass-strong {
+    background-color: rgb(var(--card) / 0.88);
+    -webkit-backdrop-filter: blur(24px) saturate(170%);
+    backdrop-filter: blur(24px) saturate(170%);
+    border-color: rgb(var(--glass-edge) / var(--glass-edge-a));
+  }
+  .dark .glass-strong {
+    background-color: rgb(var(--card) / 0.92);
+  }
+
+  /* ---------------------------------------------------------------- gradients */
+  .bg-hero {
+    background-image: radial-gradient(70% 90% at 100% 0%, rgb(255 255 255 / 0.18), transparent 60%),
+      linear-gradient(130deg, rgb(var(--hero-from)), rgb(var(--hero-via)) 55%, rgb(var(--hero-to)));
+  }
+  .text-hero {
+    background-image: linear-gradient(90deg, rgb(var(--hero-from)), rgb(var(--hero-via)), rgb(var(--hero-to)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* Brand gradient fill (no transform, safe on positioned elements). */
+  .bg-grad {
+    background-image: linear-gradient(135deg, rgb(var(--hero-from)), rgb(var(--hero-via)));
+  }
+  /* Primary button: gradient with a 3D press. */
+  .btn-3d {
+    background-image: linear-gradient(135deg, rgb(var(--hero-from)), rgb(var(--hero-via)));
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 6px 18px -6px rgb(var(--hero-from) / 0.6), 0 2px 0 0 rgb(var(--navy-700));
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  }
+  .btn-3d:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 10px 24px -8px rgb(var(--hero-from) / 0.7), 0 3px 0 0 rgb(var(--navy-700));
+  }
+  .btn-3d:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2), 0 3px 10px -4px rgb(var(--hero-from) / 0.6), 0 0 0 0 rgb(var(--navy-700));
+  }
+
+  /* ---------------------------------------------------------------- motion */
+  .lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .lift:hover {
+    transform: translateY(-3px);
+  }
+  /* 3D tilt (driven by useTilt: --rx, --ry, --gx, --gy). */
+  .tilt {
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
+    transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .tilt[data-tilting="true"] {
+    transition: transform 0.06s linear;
+  }
+  .tilt::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(260px circle at var(--gx, 50%) var(--gy, 50%), rgb(255 255 255 / 0.22), transparent 60%);
+  }
+  .tilt[data-tilting="true"]::after {
+    opacity: 1;
+  }
+  /* "backwards": the start state applies during any delay, and nothing is left behind once it finishes — a
+     filled transform would keep a stacking layer (menus slide under) and override the 3D tilt. */
+  .fade-up {
+    animation: fade-up 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  }
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+  .spin-slow {
+    animation: spin 14s linear infinite;
+  }
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-120%);
+    background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%);
+    pointer-events: none;
+  }
+  .shimmer:hover::before {
+    animation: shimmer 0.9s ease;
+  }
+  /* Blobs drifting inside a hero (local, so blurred cards elsewhere don't re-render). */
+  .blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(40px);
+    pointer-events: none;
+    animation: drift 16s ease-in-out infinite alternate;
+  }
+
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-300;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes shimmer {
+  to {
+    transform: translateX(120%);
+  }
+}
+@keyframes drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, -20px) scale(1.1);
+  }
+  100% {
+    transform: translate(-20px, 25px) scale(0.95);
+  }
+}
+
+/* Page entrance. */
+main > div > * {
+  animation: fade-up 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up,
+  .float,
+  .spin-slow,
+  .blob,
+  .lift,
+  .lift:hover,
+  .tilt,
+  .shimmer:hover::before,
+  main > div > * {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* SweetAlert2 tuned to the dashboard palette (both themes) */
+.swal2-popup {
+  font-family: inherit !important;
+  background: rgb(var(--card) / 0.92) !important;
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  color: rgb(var(--slate-700)) !important;
+  border: 1px solid rgb(var(--glass-edge) / var(--glass-edge-a));
+  border-radius: 24px !important;
+}
+.swal2-title {
+  font-size: 1.15rem !important;
+  color: rgb(var(--slate-900)) !important;
+}
+.swal2-html-container {
+  font-size: 0.9rem !important;
+  color: rgb(var(--slate-600)) !important;
+}
+.swal2-styled.swal2-confirm {
+  background: linear-gradient(135deg, rgb(var(--hero-from)), rgb(var(--hero-via))) !important;
+  border-radius: 12px !important;
+}
+.swal2-styled.swal2-confirm.swal-danger {
+  background: #dc2626 !important;
+}
+.swal2-styled.swal2-cancel {
+  background: rgb(var(--slate-200)) !important;
+  color: rgb(var(--slate-900)) !important;
+  border-radius: 12px !important;
+}
+.dark .swal2-container.swal2-backdrop-show {
+  background: rgb(0 0 0 / 0.6) !important;
+}

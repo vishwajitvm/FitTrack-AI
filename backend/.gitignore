@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Secrets — commit .env.example, never .env
+.env
+
+# Runtime data (uploads, synced exports, SQLite databases)
+# only backend/data/ — not app/services/data/ (source code)
+/data/
+*.db

@@ -1,0 +1,59 @@
+%% FitTrack AI — system architecture
+flowchart LR
+    user([📱 You<br/>phone / laptop browser])
+
+    subgraph FE["frontend/ — Next.js 14 (port 3000)"]
+        pages["Pages<br/>Dashboard · Food · Snap meal · Workouts<br/>Tracker · Check-in · Medical · Profile<br/>AI Providers · Ollama · Settings"]
+        hooks["SWR hooks<br/>src/hooks/*"]
+        apiClient["API client<br/>src/lib/api.ts"]
+        pages --> hooks --> apiClient
+    end
+
+    subgraph BE["backend/ — FastAPI (port 8000)"]
+        routes["REST routes<br/>app/api/routes/*"]
+        subgraph SVC["Services (app/services)"]
+            tracker["tracker<br/>daily totals, TDEE, deficit"]
+            science["science<br/>BMR · MET · NEAT · TEF"]
+            coach["coach<br/>rules + AI advice"]
+            training["training<br/>PPL auto-regulation"]
+            nutrition["nutrition<br/>photo analyzer · portions · search"]
+            health["health<br/>gut correlations · medical reports"]
+            data["data<br/>xlsx/csv export & import"]
+            llm["llm<br/>catalog · registry · router"]
+            ollamaSvc["ollama<br/>pull / delete / status"]
+        end
+        migrations["Alembic migrations<br/>app/db/migrations"]
+        routes --> SVC
+    end
+
+    subgraph INFRA["Infrastructure (Docker Compose)"]
+        pg[("PostgreSQL 16<br/>+ pgvector")]
+        redis[("Redis 7<br/>cache · cooldowns")]
+        ollama["Ollama<br/>(optional, local LLMs)"]
+        files[/"data/exports<br/>fitness_tracker.xlsx<br/>workout_tracker.csv"/]
+    end
+
+    subgraph CLOUD["External services"]
+        llms["7 free-forever LLM providers<br/>Gemini · Groq · OpenRouter · Cloudflare<br/>NVIDIA · Mistral · Z.ai (54 models)"]
+        usda["USDA FoodData Central"]
+        off["Open Food Facts"]
+        tavily["Tavily web search"]
+    end
+
+    user --> FE
+    apiClient -- "JSON / multipart over HTTP" --> routes
+    tracker --> science
+    coach --> llm
+    nutrition --> llm
+    health --> llm
+    llm -- "OpenAI-compatible /chat/completions" --> llms
+    llm -- "last resort" --> ollama
+    ollamaSvc --> ollama
+    nutrition --> usda
+    nutrition --> off
+    nutrition --> tavily
+    SVC --> pg
+    llm --> redis
+    nutrition --> redis
+    migrations --> pg
+    data --> files
